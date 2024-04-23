@@ -1,21 +1,8 @@
-const express = require('express');
+require('dotenv').config();
+const { Telegraf } = require('telegraf');
 
-const port = process.env.PORT || 8000;
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
-const app = express();
+bot.start(ctx => ctx.reply('Welcome'));
 
-app.use(express.json());
-
-app.get('*', (req, res) => {
-    res.send('hello');
-});
-
-app.post('*', (req, res) => {
-    console.log(req.body);
-
-    res.send('post hello');
-});
-
-app.listen(port, () => {
-    console.log('App is listening at port: ', port);
-});
+bot.launch();
