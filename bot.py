@@ -3,11 +3,19 @@ import os
 from requests import get
 import telebot
 import validators
+import ipaddress
 from urllib.parse import urlparse
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
+
+def validate_ip(ip):
+    try:
+        ipaddress.ip_address(ip)
+        return True
+    except ValueError:
+        return False
 
 def get_ip_details(ip = ""):
     if ip:
@@ -43,17 +51,26 @@ def get_website_ip(message):
 
     if validators.url(content):
         try:
-            # Fix error with some specific ip address
             hostname = urlparse(content).netloc
             ip = socket.gethostbyname(hostname)
             ip_details = get_ip_details(ip)
-            print(ip_details)
-            bot.send_message(chat_id=message.chat.id, text=f"Result for {content}\n\n{ip_details}")
+            bot.send_message(chat_id=message.chat.id, text=f"Result for {hostname}\n\n{ip_details}\n\nFor more details: https://who.is/whois-ip/ip-address/{ip}")
         except Exception as e:
             print("Error resolving hostname:", e)
-            bot.send_message(chat_id=message.chat.id, text="There is something wrong in our server.")
+            bot.send_message(chat_id=message.chat.id, text=f"Found IP for {hostname}: {ip}\n\nFor more details: https://who.is/whois-ip/ip-address/{ip}")
     else:
         bot.send_message(chat_id=message.chat.id, text="Given URL is invalid.")
         
+# @bot.message_handler(commands=['trackip'])
+# def track_ip_details(message):
+#     text = message.text
+#     content = text.split('/trackip', 1)[1].strip()
 
-bot.polling()
+#     if validate_ip(content):
+#         print(content)
+#         hostname, _, _ = socket.gethostbyaddr(content)
+#         bot.send_message(chat_id=message.chat.id, text=f"Result for {content}\n\nFound hostname: {hostname}")
+#     else:
+#         bot.send_message(chat_id=message.chat.id, text=f"Given IP address is invalid.")
+
+bot.infinity_polling()
