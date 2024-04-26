@@ -19,7 +19,6 @@ def validate_ip(ip):
 
 def get_ip_details(ip = ""):
     if ip:
-        print('Params ip: ' + ip)
         response = get(f'https://ipinfo.io/{ip}/json')
         ip_details = response.json()
 
@@ -54,23 +53,25 @@ def get_website_ip(message):
             hostname = urlparse(content).netloc
             ip = socket.gethostbyname(hostname)
             ip_details = get_ip_details(ip)
-            bot.send_message(chat_id=message.chat.id, text=f"Result for {hostname}\n\n{ip_details}\n\nFor more details: https://who.is/whois-ip/ip-address/{ip}")
+            bot.send_message(chat_id=message.chat.id, text=f"Result for {hostname}:\n\n{ip_details}\n\nFor more details: https://who.is/whois-ip/ip-address/{ip}")
         except Exception as e:
-            print("Error resolving hostname:", e)
             bot.send_message(chat_id=message.chat.id, text=f"Found IP for {hostname}: {ip}\n\nFor more details: https://who.is/whois-ip/ip-address/{ip}")
     else:
         bot.send_message(chat_id=message.chat.id, text="Given URL is invalid.")
         
-# @bot.message_handler(commands=['trackip'])
-# def track_ip_details(message):
-#     text = message.text
-#     content = text.split('/trackip', 1)[1].strip()
+@bot.message_handler(commands=['trackip'])
+def track_ip_details(message):
+    text = message.text
+    content = text.split('/trackip', 1)[1].strip()
 
-#     if validate_ip(content):
-#         print(content)
-#         hostname, _, _ = socket.gethostbyaddr(content)
-#         bot.send_message(chat_id=message.chat.id, text=f"Result for {content}\n\nFound hostname: {hostname}")
-#     else:
-#         bot.send_message(chat_id=message.chat.id, text=f"Given IP address is invalid.")
+    if content is None or content == "":
+        bot.send_message(chat_id=message.chat.id, text="Provide me an IP address.\nExample: 8.8.8.8 (Google hostname)")
+        return
+
+    if validate_ip(content):
+        hostname,_,_ = socket.gethostbyaddr(content)
+        bot.send_message(chat_id=message.chat.id, text=f"Result for {content}:\n\nFound hostname: {hostname}\n\nFor more details: https://who.is/whois-ip/ip-address/{content}")
+    else:
+        bot.send_message(chat_id=message.chat.id, text=f"Given IP address is invalid.")
 
 bot.infinity_polling()
