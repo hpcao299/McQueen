@@ -1,1 +1,7 @@
 /.env
+/task.txt
+/*.txt
+/__pycache__
+/*
+
+!/*.py
