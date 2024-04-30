@@ -127,16 +127,17 @@ class DNSDumpsterAPI(object):
 
         return res
 
-hostname = "fullstack.edu.vn"
+def run():
+    hostname = "fullstack.edu.vn"
 
-print('Scanning subdomains...')
-res = DNSDumpsterAPI(True).search(hostname)
+    print('Scanning subdomains...')
+    res = DNSDumpsterAPI(True).search(hostname)
 
-subdomains = res['dns_records']['host']
+    subdomains = res['dns_records']['host']
 
-print(f"\nFound {len(subdomains)} subdomains of {hostname}")
-for entry in subdomains:
-    if entry['reverse_dns']:
-        print(("    - {domain} ({reverse_dns}) ({ip})".format(**entry)))
-    else:
-        print(("    - {domain} ({ip})".format(**entry)))
+    print(f"\nFound {len(subdomains)} subdomains of {hostname}")
+    for entry in subdomains:
+        if entry['reverse_dns']:
+            print(("    - {domain} ({reverse_dns}) ({ip})".format(**entry)))
+        else:
+            print(("    - {domain} ({ip})".format(**entry)))
