@@ -88,5 +88,4 @@ def run():
         print(e)
         print('\nExited!')
 
-run()
 

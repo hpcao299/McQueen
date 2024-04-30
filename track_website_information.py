@@ -53,5 +53,3 @@ def run():
     except Exception as e:
         print(e)
         print('\nThere is something wrong. Exited!')
-
-run()
