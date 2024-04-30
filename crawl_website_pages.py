@@ -14,6 +14,8 @@ def run():
         parsed_uri = urlparse(url)
         sitemap_url = '{uri.scheme}://{uri.netloc}/sitemap.xml'.format(uri=parsed_uri)
 
+        print('Searching pages...')
+
         res = get(sitemap_url)
         xml_data = res.text
 
@@ -21,7 +23,7 @@ def run():
         if xml_data.find('<sitemapindex') != -1 and xml_data.find('<urlset') == -1:
             sitemap_urls = re.findall(pattern, xml_data)
 
-            print(f"Found {len(sitemap_urls)} .xml files:")
+            print(f"\nFound {len(sitemap_urls)} .xml files:")
             print("   " + '\n   '.join(sitemap_urls))
             print()
 

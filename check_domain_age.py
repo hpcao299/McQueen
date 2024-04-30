@@ -8,6 +8,8 @@ def run():
 
     whois_link = "https://who.is/whois/"
 
+    print('Checking domain age...')
+
     res = get(f"{whois_link}{hostname}").text
     doc = BeautifulSoup(res, "html.parser")
 
