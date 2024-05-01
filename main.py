@@ -7,7 +7,7 @@ import track_ip_location
 import track_website_information
 from colors import R, G, Y, RESET, BOLD
 from error_handler import handle
-from validations import validate_url, validate_domain
+from validations import validate_url, validate_domain, validate_ip_address
 
 import requests
 import argparse
@@ -27,10 +27,8 @@ def validate_domain_type(domain):
     return domain
 
 def validate_ip_type(ip):
-    try:
-        ipaddress.ip_address(ip)
-    except ValueError:
-        raise argparse.ArgumentTypeError(f"'{ip}' is not a valid IP address")
+    if not validate_ip_address(ip):
+        raise argparse.ArgumentTypeError(f"'{ip}' is not a valid IP address (e.g: 8.8.8.8)")
     return ip
 
 parser = argparse.ArgumentParser(description='Command line interface for website analysis')

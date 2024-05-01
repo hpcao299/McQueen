@@ -1,5 +1,5 @@
 from requests import get
-import ipaddress
+from validations import validate_ip_address
 from colors import R, G, BOLD, RESET
 
 def run(ip_address = None):
@@ -8,18 +8,17 @@ def run(ip_address = None):
 
     # While loop to validate input
     while True:
-        try:
-            ipaddress.ip_address(ip_address)
-
-            break
-        except ValueError:
+        if not validate_ip_address(ip_address):
             print(f'{R}[Invalid IP]{RESET} Given IP Address Is Invalid')
             print()
             ip_address = input(f'{R}[{G}+{R}]{RESET} Enter IP address (e.g: 8.8.8.8): ')
+        else:
+            break
 
     response = get(f"http://ip-api.com/json/{ip_address}")
     details = response.json()
 
+    print()
     print(f"{R}[{G}+{R}]{RESET} {BOLD}IP Address:{RESET} {ip_address}")
     print(f"{R}[{G}+{R}]{RESET} {BOLD}Country:{RESET} {details['country']}")
     print(f"{R}[{G}+{R}]{RESET} {BOLD}Region:{RESET} {details['regionName']}")

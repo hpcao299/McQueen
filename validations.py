@@ -17,3 +17,7 @@ def validate_domain(domain):
         r'^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$')
     return re.match(domain_pattern, domain)
 
+# Function to validate ip address
+def validate_ip_address(ip):
+    ip_pattern = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
+    return re.match(ip_pattern, ip)
