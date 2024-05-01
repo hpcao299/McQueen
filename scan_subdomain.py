@@ -127,8 +127,9 @@ class DNSDumpsterAPI(object):
 
         return res
 
-def run():
-    hostname = "fullstack.edu.vn"
+def run(hostname = None):
+    if hostname is None:
+        hostname = input('Enter Domain: ')
 
     print('Scanning subdomains...')
     res = DNSDumpsterAPI(True).search(hostname)

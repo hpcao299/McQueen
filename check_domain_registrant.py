@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 from requests import get
 
-def run():
-    # hostname = input('Enter a domain (e.g: example.com): ')
-    hostname = 'saigonnguyen.online'
+def run(hostname = None):
+    if hostname is None:
+        hostname = input('Enter Domain: ')
 
     whois_link = "https://who.is/whois/"
 

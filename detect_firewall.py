@@ -1,13 +1,13 @@
 from requests import get
 
 
-def run():
+def run(url = None):
     def has_waf(waf: str):
         print('\nFirewall: ✅')
         print(f'Found WAF: {waf}')
     
-    # url = input('Enter a website url: ')
-    url = 'https://substack.com'
+    if url is None:
+        url = input('Enter Website: ')
     
     print('Detecting firewall...')
 

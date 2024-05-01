@@ -5,8 +5,10 @@ import detect_firewall
 import scan_subdomain
 import track_ip_location
 import track_website_information
-from colors import R, G, Y, RESET
+from colors import R, G, Y, RESET, BOLD
+from error_handler import handle
 
+import requests
 import argparse
 import ipaddress
 import re
@@ -57,18 +59,18 @@ def banner():
             _  /  / / / /__ / /_/ // /_/ //  __/  __/  / / /
             /_/  /_/  \___/ \___\_\\__,_/ \___/\___//_/ /_/ 
           
-            {Y}# A collection of information-gathering tools
+            {Y}{BOLD}# A collection of information-gathering tools
     {RESET}""")
 
 def display_menu():
-    print(f'[{R}01{RESET}] {G}Track Website Information{RESET}')
-    print(f'[{R}02{RESET}] {G}Trace IP Address Location{RESET}')
-    print(f'[{R}03{RESET}] {G}Check Domain Age{RESET}')
-    print(f'[{R}04{RESET}] {G}Find Domain Owner{RESET}')
-    print(f'[{R}05{RESET}] {G}Scan Subdomains{RESET}')
-    print(f'[{R}06{RESET}] {G}Crawl Pages{RESET}')
-    print(f'[{R}07{RESET}] {G}Detect Website Firewall{RESET}')
-    command = input(f'\n[{R}-{RESET}] Choose: ')
+    print(f'{R}[{G}01{R}]{RESET} Track Website Information{RESET}')
+    print(f'{R}[{G}02{R}]{RESET} Trace IP Address Location{RESET}')
+    print(f'{R}[{G}03{R}]{RESET} Check Domain Age{RESET}')
+    print(f'{R}[{G}04{R}]{RESET} Find Domain Owner{RESET}')
+    print(f'{R}[{G}05{R}]{RESET} Scan Subdomains{RESET}')
+    print(f'{R}[{G}06{R}]{RESET} Crawl Pages{RESET}')
+    print(f'{R}[{G}07{R}]{RESET} Detect Website Firewall{RESET}')
+    command = input(f'\n{R}[{G}-{R}]{RESET} Choose: ')
 
 parser = argparse.ArgumentParser(description='Command line interface for information-gathering tools')
 
@@ -84,19 +86,26 @@ parser.add_argument('-l', '--location', help="Trace IP address location", metava
 args = parser.parse_args()
 
 banner()
-if args.info:
-    print('Track website information')
-elif args.page:
-    print('Page argument')
-elif args.firewall:
-    print('Firewall argument')
-elif args.age:
-    print('DOmain age checker')
-elif args.subdomain:
-    print('Subdomain argument')
-elif args.owner:
-    print('Owner argument')
-elif args.location:
-    print('Location argument')
-else:
-    display_menu()
+try:
+    if args.info:
+        track_website_information.run(args.info)
+    elif args.page:
+        crawl_website_pages.run(args.page)
+    elif args.firewall:
+        detect_firewall.run(args.firewall)
+    elif args.age:
+        check_domain_age.run(args.age)
+    elif args.subdomain:
+        scan_subdomain.run(args.subdomain)
+    elif args.owner:
+        check_domain_registrant.run(args.owner)
+    elif args.location:
+        track_ip_location.run(args.location)
+    else:
+        display_menu()
+except requests.exceptions.ConnectionError as e:
+    handle(label = "Connection Error", error = e)
+except requests.exceptions.Timeout as e:
+    handle(label = "Timeout", error = e)
+except Exception as e:
+    handle(error = e)
