@@ -3,14 +3,20 @@ from bs4 import BeautifulSoup
 from requests import get
 from error_handler import handle
 from validations import validate_domain
-from colors import R, RESET
+from colors import R, G, BOLD, RESET
 
 def run(hostname = None):
     if hostname is None:
-        hostname = input('Enter Domain: ')
+        hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain: ')
 
-    if not validate_domain(hostname):
-        return print(f'{R}[Invalid Domain]{RESET} Given Domain Is Invalid')
+    # While loop to validate input
+    while True:
+        if not validate_domain(hostname):
+            print(f'{R}[Invalid Domain]{RESET} Given Domain Is Invalid')
+            print()
+            hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain (e.g: example.com): ')
+        else:
+            break
 
     whois_link = "https://who.is/whois/"
 
@@ -36,7 +42,7 @@ def run(hostname = None):
         months = difference.days % 365 // 30
         days = difference.days % 365 % 30
 
-        print("Registered On:", given_date.strftime("%d/%m/%Y"))
-        print("Domain age:", years, "years,", months, "months and", days, "days")
+        print(f"{R}[{G}+{R}]{RESET} {BOLD}Registered On:{RESET}", given_date.strftime("%d/%m/%Y"))
+        print(f"{R}[{G}+{R}]{RESET} {BOLD}Domain age:{RESET} {years} years, {months} months and {days} days")
     else:
         handle(label="No Data Found")

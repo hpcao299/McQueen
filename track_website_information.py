@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import dns.resolver
 from error_handler import handle
 from validations import validate_url
-from colors import R, RESET
+from colors import R, G, BOLD, RESET
 
 def get_ip_details(ip):
     response = get(f'https://ipinfo.io/{ip}/json')
@@ -17,10 +17,16 @@ def run(url = None):
         resolver = dns.resolver.Resolver()
 
         if url is None:
-            url = input('Enter Website: ')
+            url = input(f'{R}[{G}+{R}]{RESET} Enter Website: ')
 
-        if not validate_url(url):
-            return print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
+        # While loop to validate input
+        while True:
+            if not validate_url(url):
+                print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
+                print()
+                url = input(f'{R}[{G}+{R}]{RESET} Enter Website (e.g: https://example.com): ')
+            else:
+                break
 
         parsed_url = urlparse(url)
         hostname = parsed_url.netloc
@@ -35,26 +41,30 @@ def run(url = None):
         nameservers = resolver.resolve(hostname, 'NS')
 
         if ip != '127.0.0.1': 
-            print('IPv4 Address:')
-            for ip in ipv4_addresses:
-                print(f"   - {ip}")
-            print('IPv6 Address:')
-            for ip in ipv6_addresses:
-                print(f"   - {ip}")
-            print('Nameservers:')
-            for nameserver in nameservers:
-                print(f"   - {nameserver}")
+            if len(ipv4_addresses) > 0:
+                print(f'{R}[{G}+{R}]{RESET} {BOLD}IPv4 Address:{RESET}')
+                for ip in ipv4_addresses:
+                    print(f"   - {ip}")    
 
+            if len(ipv6_addresses) > 0:
+                print(f'{R}[{G}+{R}]{RESET} {BOLD}IPv6 Address:{RESET}')
+                for ip in ipv6_addresses:
+                    print(f"   - {ip}")
+            
+            if len(nameservers) > 0:
+                print(f'{R}[{G}+{R}]{RESET} {BOLD}Nameservers:{RESET}')
+                for nameserver in nameservers:
+                    print(f"   - {nameserver}")
 
             ip_details = get_ip_details(ip)
 
-            print(f"Country: {ip_details['country']}")
-            print(f"Region: {ip_details['region']}")
-            print(f"City: {ip_details['city']}")
-            print(f"Latitude / Longitude: {ip_details['loc']}")
-            print(f"Timezone: {ip_details['timezone']}")
-            print(f"Origin: {ip_details['org']}")
-            print(f"Postal: {ip_details['postal']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Country:{RESET} {ip_details['country']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Region:{RESET} {ip_details['region']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}City:{RESET} {ip_details['city']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Latitude / Longitude:{RESET} {ip_details['loc']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Timezone:{RESET} {ip_details['timezone']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Origin:{RESET} {ip_details['org']}")
+            print(f"{R}[{G}+{R}]{RESET} {BOLD}Postal:{RESET} {ip_details['postal']}")
         else:
             handle(label = "No Data Found")
     except dns.resolver.NoAnswer as e:

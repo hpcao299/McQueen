@@ -1,17 +1,23 @@
 from requests import get
 from validations import validate_url
-from colors import R, RESET
+from colors import R, G, BOLD, RESET
 
 def run(url = None):
     def has_waf(waf: str):
-        print('\nFirewall: ✅')
-        print(f'Found WAF: {waf}')
+        print(f'\n{R}[{G}+{R}]{RESET} {BOLD}Firewall:{RESET} ✅')
+        print(f'{R}[{G}+{R}]{RESET} {BOLD}Found WAF:{RESET} {waf}')
     
     if url is None:
-        url = input('Enter Website: ')
+        url = input(f'{R}[{G}+{R}]{RESET} Enter Website: ')
     
-    if not validate_url(url):
-        return print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
+    # While loop to validate input
+    while True:
+        if not validate_url(url):
+            print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
+            print()
+            url = input(f'{R}[{G}+{R}]{RESET} Enter Website (e.g: https://example.com): ')
+        else:
+            break
 
     print('Detecting firewall...')
 
@@ -74,5 +80,5 @@ def run(url = None):
     if 'x-datapower-transactionid' in res.headers:
         return has_waf('IBM WebSphere DataPower')
 
-    print('\nFirewall: ❌')
-    print('No firewall found.')
+    print(f'\n{R}[{G}+{R}]{RESET} {BOLD}Firewall:{RESET} ❌')
+    print(f'{R}[{G}+{R}]{RESET} {BOLD}No firewall found{RESET}')

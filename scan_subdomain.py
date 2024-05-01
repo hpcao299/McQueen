@@ -15,7 +15,7 @@ import base64
 
 from bs4 import BeautifulSoup
 from validations import validate_domain
-from colors import R, RESET
+from colors import R, G, BOLD, RESET
 
 class DNSDumpsterAPI(object):
 
@@ -130,17 +130,23 @@ class DNSDumpsterAPI(object):
 
 def run(hostname = None):
     if hostname is None:
-        hostname = input('Enter Domain: ')
+        hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain: ')
 
-    if not validate_domain(hostname):
-        return print(f'{R}[Invalid Domain]{RESET} Given Domain Is Invalid')
+    # While loop to validate input
+    while True:
+        if not validate_domain(hostname):
+            print(f'{R}[Invalid Domain]{RESET} Given Domain Is Invalid')
+            print()
+            hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain (e.g: example.com): ')
+        else:
+            break
 
     print('Scanning subdomains...')
     res = DNSDumpsterAPI(True).search(hostname)
 
     subdomains = res['dns_records']['host']
 
-    print(f"\nFound {len(subdomains)} subdomains of {hostname}")
+    print(f"\n{R}[{G}+{R}]{RESET} {BOLD}Found {len(subdomains)} subdomains of {hostname}:{RESET}")
     for entry in subdomains:
         if entry['reverse_dns']:
             print(("    - {domain} ({reverse_dns}) ({ip})".format(**entry)))
