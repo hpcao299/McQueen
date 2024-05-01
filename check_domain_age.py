@@ -42,6 +42,7 @@ def run(hostname = None):
         months = difference.days % 365 // 30
         days = difference.days % 365 % 30
 
+        print()
         print(f"{R}[{G}+{R}]{RESET} {BOLD}Registered On:{RESET}", given_date.strftime("%d/%m/%Y"))
         print(f"{R}[{G}+{R}]{RESET} {BOLD}Domain age:{RESET} {years} years, {months} months and {days} days")
     else:
