@@ -12,6 +12,7 @@ from validations import validate_url, validate_domain
 import requests
 import argparse
 import ipaddress
+import os
 
 # Custom type for URL validation
 def validate_url_type(url):
@@ -45,37 +46,56 @@ def banner():
             {Y}{BOLD}# A collection of information-gathering tools
     {RESET}""")
 
-def display_menu():
-    print(f'{R}[{G}01{R}]{RESET} Track Website Information{RESET}')
-    print(f'{R}[{G}02{R}]{RESET} Trace IP Address Location{RESET}')
-    print(f'{R}[{G}03{R}]{RESET} Check Domain Age{RESET}')
-    print(f'{R}[{G}04{R}]{RESET} Find Domain Owner{RESET}')
-    print(f'{R}[{G}05{R}]{RESET} Scan Subdomains{RESET}')
-    print(f'{R}[{G}06{R}]{RESET} Crawl Pages{RESET}')
-    print(f'{R}[{G}07{R}]{RESET} Detect Website Firewall{RESET}')
-    command = input(f'\n{R}[{G}-{R}]{RESET} Choose: ')
+def clear_terminal():
+    """Clears the terminal screen."""
+    
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-    try:
-        if command == '01':
-            track_website_information.run()
-        elif command == '02':
-            track_ip_location.run()
-        elif command == '03':
-            check_domain_age.run()
-        elif command == '04':
-            check_domain_registrant.run()
-        elif command == '05':
-            scan_subdomain.run()
-        elif command == '06':
-            crawl_website_pages.run()
-        elif command == '07':
-            detect_firewall.run()
-    except requests.exceptions.ConnectionError as e:
-        handle(label = "Connection Error", error = e)
-    except requests.exceptions.Timeout as e:
-        handle(label = "Timeout", error = e)
-    except Exception as e:
-        handle(error = e)
+def display_menu():
+    while True:
+        banner()
+
+        print(f'{R}[{G}01{R}]{RESET} Track Website Information{RESET}')
+        print(f'{R}[{G}02{R}]{RESET} Trace IP Address Location{RESET}')
+        print(f'{R}[{G}03{R}]{RESET} Check Domain Age{RESET}')
+        print(f'{R}[{G}04{R}]{RESET} Find Domain Owner{RESET}')
+        print(f'{R}[{G}05{R}]{RESET} Scan Subdomains{RESET}')
+        print(f'{R}[{G}06{R}]{RESET} Crawl Pages{RESET}')
+        print(f'{R}[{G}07{R}]{RESET} Detect Website Firewall{RESET}')
+        command = input(f'\n{R}[{G}+{R}]{RESET} Choose: ')
+
+        clear_terminal()
+        banner()
+
+        try:
+            if command == '01':
+                track_website_information.run()
+            elif command == '02':
+                track_ip_location.run()
+            elif command == '03':
+                check_domain_age.run()
+            elif command == '04':
+                check_domain_registrant.run()
+            elif command == '05':
+                scan_subdomain.run()
+            elif command == '06':
+                crawl_website_pages.run()
+            elif command == '07':
+                detect_firewall.run()
+            else:
+                print(f'{R}{BOLD}[error]{RESET} Wrong Command{RESET}')
+        except requests.exceptions.ConnectionError as e:
+            handle(label = "Connection Error", error = e)
+            break
+        except requests.exceptions.Timeout as e:
+            handle(label = "Timeout", error = e)
+            break
+        except Exception as e:
+            handle(error = e)
+            break
+
+        input(f'\n{R}[{G}+{R}]{RESET} Press "ENTER" To Continue: ')
+        clear_terminal()
 
 parser = argparse.ArgumentParser(description='Command line interface for information-gathering tools')
 
@@ -90,21 +110,27 @@ parser.add_argument('-l', '--location', help="Trace IP address location", metava
 
 args = parser.parse_args()
 
-banner()
 try:
     if args.info:
+        banner()
         track_website_information.run(args.info)
     elif args.page:
+        banner()
         crawl_website_pages.run(args.page)
     elif args.firewall:
+        banner()
         detect_firewall.run(args.firewall)
     elif args.age:
+        banner()
         check_domain_age.run(args.age)
     elif args.subdomain:
+        banner()
         scan_subdomain.run(args.subdomain)
     elif args.owner:
+        banner()
         check_domain_registrant.run(args.owner)
     elif args.location:
+        banner()
         track_ip_location.run(args.location)
     else:
         display_menu()

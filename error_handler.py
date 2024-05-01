@@ -1,7 +1,8 @@
 from colors import R, G, BOLD, RESET
 
 def handle(error: str = None, label: str = None):
-    print(f'{R}[{G}-{R}]{RESET} {label if label else "There Is A Problem"}{RESET}')
+    print()
+    print(f'{R}[{G}+{R}]{RESET} {label if label else "There Is A Problem"}{RESET}')
 
     print()
     print(f'{R}[{G}01{R}]{RESET} Check The Connection{RESET}')
