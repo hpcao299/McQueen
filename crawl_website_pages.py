@@ -3,6 +3,8 @@ from urllib.parse import urlparse
 from requests import get
 import re
 import os
+from validations import validate_url
+from colors import R, RESET
 
 # Pattern to get 
 pattern = r"<loc>(.*?)</loc>"
@@ -10,6 +12,9 @@ pattern = r"<loc>(.*?)</loc>"
 def run(url = None):    
     if url is None:
         url = input('Enter Website: ')
+
+    if not validate_url(url):
+        return print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
 
     parsed_uri = urlparse(url)
     sitemap_url = '{uri.scheme}://{uri.netloc}/sitemap.xml'.format(uri=parsed_uri)

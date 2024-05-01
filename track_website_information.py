@@ -3,6 +3,8 @@ from requests import get
 from urllib.parse import urlparse
 import dns.resolver
 from error_handler import handle
+from validations import validate_url
+from colors import R, RESET
 
 def get_ip_details(ip):
     response = get(f'https://ipinfo.io/{ip}/json')
@@ -16,6 +18,9 @@ def run(url = None):
 
         if url is None:
             url = input('Enter Website: ')
+
+        if not validate_url(url):
+            return print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
 
         parsed_url = urlparse(url)
         hostname = parsed_url.netloc

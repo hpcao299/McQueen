@@ -7,34 +7,17 @@ import track_ip_location
 import track_website_information
 from colors import R, G, Y, RESET, BOLD
 from error_handler import handle
+from validations import validate_url, validate_domain
 
 import requests
 import argparse
 import ipaddress
-import re
-
-# Function to validate URL format
-def validate_url(url):
-    url_pattern = re.compile(
-        r'^(?:http|ftp)s?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-        r'localhost|'  # localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
-        r'(?::\d+)?'  # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-    return re.match(url_pattern, url)
 
 # Custom type for URL validation
 def validate_url_type(url):
     if not validate_url(url):
         raise argparse.ArgumentTypeError(f"'{url}' is not a valid URL (e.g: https://example.com)")
     return url
-
-# Function to validate domain format
-def validate_domain(domain):
-    domain_pattern = re.compile(
-        r'^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$')
-    return re.match(domain_pattern, domain)
 
 # Custom type for domain validation
 def validate_domain_type(domain):
@@ -71,6 +54,28 @@ def display_menu():
     print(f'{R}[{G}06{R}]{RESET} Crawl Pages{RESET}')
     print(f'{R}[{G}07{R}]{RESET} Detect Website Firewall{RESET}')
     command = input(f'\n{R}[{G}-{R}]{RESET} Choose: ')
+
+    try:
+        if command == '01':
+            track_website_information.run()
+        elif command == '02':
+            track_ip_location.run()
+        elif command == '03':
+            check_domain_age.run()
+        elif command == '04':
+            check_domain_registrant.run()
+        elif command == '05':
+            scan_subdomain.run()
+        elif command == '06':
+            crawl_website_pages.run()
+        elif command == '07':
+            detect_firewall.run()
+    except requests.exceptions.ConnectionError as e:
+        handle(label = "Connection Error", error = e)
+    except requests.exceptions.Timeout as e:
+        handle(label = "Timeout", error = e)
+    except Exception as e:
+        handle(error = e)
 
 parser = argparse.ArgumentParser(description='Command line interface for information-gathering tools')
 

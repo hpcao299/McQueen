@@ -1,8 +1,15 @@
 from requests import get
+import ipaddress
+from colors import R, RESET
 
 def run(ip_address = None):
     if ip_address is None:
         ip_address = input('Enter IP address: ')
+
+    try:
+        ipaddress.ip_address(ip_address)
+    except ValueError:
+        return print(f'{R}[Invalid IP]{RESET} Given IP Address Is Invalid')
 
     response = get(f"http://ip-api.com/json/{ip_address}")
     details = response.json()

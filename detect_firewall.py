@@ -1,5 +1,6 @@
 from requests import get
-
+from validations import validate_url
+from colors import R, RESET
 
 def run(url = None):
     def has_waf(waf: str):
@@ -9,6 +10,9 @@ def run(url = None):
     if url is None:
         url = input('Enter Website: ')
     
+    if not validate_url(url):
+        return print(f'{R}[Invalid URL]{RESET} Given Url Is Invalid')
+
     print('Detecting firewall...')
 
     res = get(url)

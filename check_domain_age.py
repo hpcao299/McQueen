@@ -2,10 +2,15 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from requests import get
 from error_handler import handle
+from validations import validate_domain
+from colors import R, RESET
 
 def run(hostname = None):
     if hostname is None:
         hostname = input('Enter Domain: ')
+
+    if not validate_domain(hostname):
+        return print(f'{R}[Invalid Domain]{RESET} Given Domain Is Invalid')
 
     whois_link = "https://who.is/whois/"
 
