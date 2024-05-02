@@ -8,6 +8,7 @@ from .track_website_information import run as track_website_information
 from .colors import *
 from .validations import *
 from .error_handler import *
+from .main import interactive
 
 __all__ = [
     'check_domain_age',

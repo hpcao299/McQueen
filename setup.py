@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='McQueen',
-    version='0.3.2',
+    version='0.4.4',
     url="https://github.com/hpcao299/McQueen",
     description='A collection of information-gathering tools',
     packages=find_packages(),
@@ -20,4 +20,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
     ],
+    entry_points={
+        'console_scripts': [
+            'mcqueen = McQueen:interactive',
+        ],
+    },
 )

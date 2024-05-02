@@ -1,10 +1,10 @@
-import check_domain_age
-import check_domain_registrant
-import crawl_website_pages
-import detect_firewall
-import scan_subdomain
-import track_ip_location
-import track_website_information
+from McQueen import check_domain_age
+from McQueen import check_domain_registrant
+from McQueen import crawl_website_pages
+from McQueen import detect_firewall
+from McQueen import scan_subdomain
+from McQueen import track_ip_location
+from McQueen import track_website_information
 from McQueen.colors import R, G, Y, RESET, BOLD
 from McQueen.error_handler import handle
 from McQueen.validations import validate_url, validate_domain, validate_ip_address
@@ -66,19 +66,19 @@ def display_menu():
 
         try:
             if command == '01':
-                track_website_information.run()
+                track_website_information()
             elif command == '02':
-                track_ip_location.run()
+                track_ip_location()
             elif command == '03':
-                check_domain_age.run()
+                check_domain_age()
             elif command == '04':
-                check_domain_registrant.run()
+                check_domain_registrant()
             elif command == '05':
-                scan_subdomain.run()
+                scan_subdomain()
             elif command == '06':
-                crawl_website_pages.run()
+                crawl_website_pages()
             elif command == '07':
-                detect_firewall.run()
+                detect_firewall()
             else:
                 print(f'{R}{BOLD}[error]{RESET} Wrong Command{RESET}')
         except requests.exceptions.ConnectionError as e:
@@ -94,46 +94,55 @@ def display_menu():
         input(f'\n{R}[{G}+{R}]{RESET} Press "ENTER" To Continue: ')
         clear_terminal()
 
-parser = argparse.ArgumentParser(description='Command line interface for information-gathering tools')
+def parse_args():
+    parser = argparse.ArgumentParser(description='Command line interface for information-gathering tools')
 
-# Add arguments
-parser.add_argument('-i', '--info', help="Track website information", metavar="URL", type=validate_url_type)
-parser.add_argument('-p', '--page', help="Crawl website pages", metavar="URL", type=validate_url_type)
-parser.add_argument('-f', '--firewall', help="Detect website firewall", metavar="URL", type=validate_url_type)
-parser.add_argument('-a', '--age', help="Check domain age", metavar="DOMAIN", type=validate_domain_type)
-parser.add_argument('-s', '--subdomain', help="Scan subdomains", metavar="DOMAIN", type=validate_domain_type)
-parser.add_argument('-o', '--owner', help="Find domain owner", metavar="DOMAIN", type=validate_domain_type)
-parser.add_argument('-l', '--location', help="Trace IP address location", metavar="IP", type=validate_ip_type)
+    # Add arguments
+    parser.add_argument('-i', '--info', help="Track website information", metavar="URL", type=validate_url_type)
+    parser.add_argument('-p', '--page', help="Crawl website pages", metavar="URL", type=validate_url_type)
+    parser.add_argument('-f', '--firewall', help="Detect website firewall", metavar="URL", type=validate_url_type)
+    parser.add_argument('-a', '--age', help="Check domain age", metavar="DOMAIN", type=validate_domain_type)
+    parser.add_argument('-s', '--subdomain', help="Scan subdomains", metavar="DOMAIN", type=validate_domain_type)
+    parser.add_argument('-o', '--owner', help="Find domain owner", metavar="DOMAIN", type=validate_domain_type)
+    parser.add_argument('-l', '--location', help="Trace IP address location", metavar="IP", type=validate_ip_type)
 
-args = parser.parse_args()
+    return parser.parse_args()
 
-try:
-    if args.info:
-        banner()
-        track_website_information.run(args.info)
-    elif args.page:
-        banner()
-        crawl_website_pages.run(args.page)
-    elif args.firewall:
-        banner()
-        detect_firewall.run(args.firewall)
-    elif args.age:
-        banner()
-        check_domain_age.run(args.age)
-    elif args.subdomain:
-        banner()
-        scan_subdomain.run(args.subdomain)
-    elif args.owner:
-        banner()
-        check_domain_registrant.run(args.owner)
-    elif args.location:
-        banner()
-        track_ip_location.run(args.location)
-    else:
-        display_menu()
-except requests.exceptions.ConnectionError as e:
-    handle(label = "Connection Error", error = e)
-except requests.exceptions.Timeout as e:
-    handle(label = "Timeout", error = e)
-except Exception as e:
-    handle(error = e)
+def main(args = None):
+    try:
+        if args.info:
+            banner()
+            track_website_information(args.info)
+        elif args.page:
+            banner()
+            crawl_website_pages(args.page)
+        elif args.firewall:
+            banner()
+            detect_firewall(args.firewall)
+        elif args.age:
+            banner()
+            check_domain_age(args.age)
+        elif args.subdomain:
+            banner()
+            scan_subdomain(args.subdomain)
+        elif args.owner:
+            banner()
+            check_domain_registrant(args.owner)
+        elif args.location:
+            banner()
+            track_ip_location(args.location)
+        else:
+            display_menu()
+    except requests.exceptions.ConnectionError as e:
+        handle(label = "Connection Error", error = e)
+    except requests.exceptions.Timeout as e:
+        handle(label = "Timeout", error = e)
+    except Exception as e:
+        print(e)
+
+def interactive():
+    args = parse_args()
+    main(args)
+
+if __name__ == "__main__":
+    interactive()
