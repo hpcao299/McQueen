@@ -1,8 +1,13 @@
 from setuptools import setup, find_packages
 
+with open('README.md', 'r') as f:
+    description = f.read()
+
 setup(
     name='McQueen',
-    version='0.4.4',
+    version='0.5.0',
+    author='Michael Cao',
+    author_email='caohoangphuc2909@gmail.com',
     url="https://github.com/hpcao299/McQueen",
     description='A collection of information-gathering tools',
     packages=find_packages(),
@@ -10,8 +15,7 @@ setup(
     python_requires='>=3.6',
     license='MIT',
     classifiers=[
-        'Programming Language :: Python'
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python',
         'Topic :: Security',
         'Environment :: Console',
         'Intended Audience :: Information Technology',
@@ -25,4 +29,6 @@ setup(
             'mcqueen = McQueen:interactive',
         ],
     },
+    long_description=description,
+    long_description_content_type='text/markdown'
 )
