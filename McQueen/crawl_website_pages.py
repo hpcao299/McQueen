@@ -9,7 +9,7 @@ from McQueen.colors import R, G, BOLD, RESET
 # Pattern to get 
 pattern = r"<loc>(.*?)</loc>"
 
-def run(url = None):    
+def run(url: str = None):    
     if url is None:
         url = input(f'{R}[{G}+{R}]{RESET} Enter Website: ')
 

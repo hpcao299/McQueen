@@ -128,7 +128,7 @@ class DNSDumpsterAPI(object):
 
         return res
 
-def run(hostname = None):
+def run(hostname: str = None):
     if hostname is None:
         hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain: ')
 

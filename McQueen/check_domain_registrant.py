@@ -3,7 +3,7 @@ from requests import get
 from McQueen.validations import validate_domain
 from McQueen.colors import R, G, BOLD, RESET
 
-def run(hostname = None):
+def run(hostname: str = None):
     if hostname is None:
         hostname = input(f'{R}[{G}+{R}]{RESET} Enter Domain: ')
 

@@ -12,7 +12,7 @@ def get_ip_details(ip):
     
     return ip_details
 
-def run(url = None):
+def run(url: str = None):
     try:
         resolver = dns.resolver.Resolver()
 

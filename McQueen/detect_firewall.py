@@ -2,7 +2,7 @@ from requests import get
 from McQueen.validations import validate_url
 from McQueen.colors import R, G, BOLD, RESET
 
-def run(url = None):
+def run(url: str = None):
     def has_waf(waf: str):
         print(f'\n{R}[{G}+{R}]{RESET} {BOLD}Firewall:{RESET} ✅')
         print(f'{R}[{G}+{R}]{RESET} {BOLD}Found WAF:{RESET} {waf}')

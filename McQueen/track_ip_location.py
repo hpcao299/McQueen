@@ -2,7 +2,7 @@ from requests import get
 from McQueen.validations import validate_ip_address
 from McQueen.colors import R, G, BOLD, RESET
 
-def run(ip_address = None):
+def run(ip_address: str = None):
     if ip_address is None:
         ip_address = input(f'{R}[{G}+{R}]{RESET} Enter IP address: ')
 
