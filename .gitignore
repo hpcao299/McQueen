@@ -2,8 +2,11 @@
 /task.txt
 /*.txt
 /__pycache__
+/McQueen/__pycache__
 /*
 
 !/*.py
+!/McQueen
 !/requirements.txt
 !/README.md
+!/LICENSE

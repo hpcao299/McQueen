@@ -1,9 +1,9 @@
 from datetime import datetime
 from bs4 import BeautifulSoup
 from requests import get
-from error_handler import handle
-from validations import validate_domain
-from colors import R, G, BOLD, RESET
+from McQueen.error_handler import handle
+from McQueen.validations import validate_domain
+from McQueen.colors import R, G, BOLD, RESET
 
 def run(hostname = None):
     if hostname is None:

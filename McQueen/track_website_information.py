@@ -2,9 +2,9 @@ import socket
 from requests import get
 from urllib.parse import urlparse
 import dns.resolver
-from error_handler import handle
-from validations import validate_url
-from colors import R, G, BOLD, RESET
+from McQueen.error_handler import handle
+from McQueen.validations import validate_url
+from McQueen.colors import R, G, BOLD, RESET
 
 def get_ip_details(ip):
     response = get(f'https://ipinfo.io/{ip}/json')
@@ -40,6 +40,7 @@ def run(url = None):
 
         nameservers = resolver.resolve(hostname, 'NS')
 
+        print()
         if ip != '127.0.0.1': 
             if len(ipv4_addresses) > 0:
                 print(f'{R}[{G}+{R}]{RESET} {BOLD}IPv4 Address:{RESET}')

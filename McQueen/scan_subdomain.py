@@ -14,8 +14,8 @@ import sys
 import base64
 
 from bs4 import BeautifulSoup
-from validations import validate_domain
-from colors import R, G, BOLD, RESET
+from McQueen.validations import validate_domain
+from McQueen.colors import R, G, BOLD, RESET
 
 class DNSDumpsterAPI(object):
 

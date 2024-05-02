@@ -1,4 +1,4 @@
-from colors import R, G, BOLD, RESET
+from McQueen.colors import R, G, BOLD, RESET
 
 def handle(error: str = None, label: str = None):
     print()

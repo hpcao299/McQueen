@@ -1,10 +1,10 @@
-from error_handler import handle
+from McQueen.error_handler import handle
 from urllib.parse import urlparse
 from requests import get
 import re
 import os
-from validations import validate_url
-from colors import R, G, BOLD, RESET
+from McQueen.validations import validate_url
+from McQueen.colors import R, G, BOLD, RESET
 
 # Pattern to get 
 pattern = r"<loc>(.*?)</loc>"

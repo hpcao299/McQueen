@@ -1,6 +1,6 @@
 from requests import get
-from validations import validate_url
-from colors import R, G, BOLD, RESET
+from McQueen.validations import validate_url
+from McQueen.colors import R, G, BOLD, RESET
 
 def run(url = None):
     def has_waf(waf: str):

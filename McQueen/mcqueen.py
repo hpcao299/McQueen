@@ -5,13 +5,12 @@ import detect_firewall
 import scan_subdomain
 import track_ip_location
 import track_website_information
-from colors import R, G, Y, RESET, BOLD
-from error_handler import handle
-from validations import validate_url, validate_domain, validate_ip_address
+from McQueen.colors import R, G, Y, RESET, BOLD
+from McQueen.error_handler import handle
+from McQueen.validations import validate_url, validate_domain, validate_ip_address
 
 import requests
 import argparse
-import ipaddress
 import os
 
 # Custom type for URL validation

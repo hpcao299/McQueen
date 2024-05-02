@@ -1,6 +1,6 @@
 from requests import get
-from validations import validate_ip_address
-from colors import R, G, BOLD, RESET
+from McQueen.validations import validate_ip_address
+from McQueen.colors import R, G, BOLD, RESET
 
 def run(ip_address = None):
     if ip_address is None:
