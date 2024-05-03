@@ -2,6 +2,10 @@
 
 McQueen is an advanced command-line interface (CLI) toolkit crafted in Python, designed to empower users with information-gathering capabilities. It serves as a solution for investigating variety of Internet informations including website, IP address, email address or phone number.
 
+<p align="center">
+  <img src="https://github.com/hpcao299/McQueen/blob/main-python/screenshot.png" alt="McQueen Terminal Banner"/>
+</p>
+
 ## Installation
 
 Get Python downloaded on computer: [https://www.python.org/downloads/](https://www.python.org/downloads/)
@@ -15,7 +19,7 @@ pip3 install -r requirements.txt
 python3 McQueen/main.py
 ```
 
-### Lastest release on PyPI
+### Latest release on PyPI
 
 ```
 pip3 install McQueen
@@ -35,6 +39,10 @@ pip3 install McQueen
 | -l         | --location  | Trace IP address location      |
 
 ### Examples
+
+-   To show display menu and keyboard command:
+
+`mcqueen`
 
 -   To list all the basic options and switches use -h switch:
 
